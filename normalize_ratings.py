@@ -11,4 +11,3 @@ def normalize(Y):
                 if Y[i, j] > 0:
                     Ynorm[i, j] = Y[i, j] - Ymean[i]
     return Ymean, Ynorm
-    # for i in range(m):
