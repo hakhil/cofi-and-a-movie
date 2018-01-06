@@ -6,9 +6,10 @@ def costfn(params, Y, num_users, num_movies, num_features):
     Theta = np.array(params[X.size:]).reshape(num_users, num_features)
 
     # Calculate J(cost)
-    J = 0.5 * np.power(((np.mat(X) * np.transpose(np.mat(Theta))) - Y), 2)
+    J = 0.5 * np.power((np.mat(X) * np.transpose(np.mat(Theta)))[np.where((Y > 0))] - Y[np.where((Y > 0))], 2)
     J = sum(sum(np.array(J)))
 
+    # print J
     return J
 
 def gradfn(params, Y, num_users, num_movies, num_features):
@@ -34,5 +35,5 @@ def gradfn(params, Y, num_users, num_movies, num_features):
         if X_temp.size > 0:
             Theta_grad[j, :] = (np.mat(Theta[j, :]) * np.mat(X_temp).transpose() - np.mat(Y_temp)) * np.mat(X_temp)
 
-    grad = np.concatenate((X_grad.flatten(), Theta_grad.flatten()))
+    grad = np.concatenate((X_grad.flatten(order=1), Theta_grad.flatten(order=1)))
     return grad
