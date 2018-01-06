@@ -1,9 +1,10 @@
 import numpy as np
 
 def costfn(params, Y, num_users, num_movies, num_features):
-
-    X = np.array(params[:num_movies * num_features]).reshape(num_movies, num_features)
-    Theta = np.array(params[X.size:]).reshape(num_users, num_features)
+    X = np.array(params[:num_movies * num_features]).reshape(num_features, num_movies)
+    X = np.transpose(X)
+    Theta = np.array(params[X.size:]).reshape(num_features, num_users)
+    Theta = np.transpose(Theta)
 
     # Calculate J(cost)
     J = 0.5 * np.power((np.mat(X) * np.transpose(np.mat(Theta)))[np.where((Y > 0))] - Y[np.where((Y > 0))], 2)
@@ -14,8 +15,10 @@ def costfn(params, Y, num_users, num_movies, num_features):
 
 def gradfn(params, Y, num_users, num_movies, num_features):
 
-    X = np.array(params[:num_movies * num_features]).reshape(num_movies, num_features)
-    Theta = np.array(params[X.size:]).reshape(num_users, num_features)
+    X = np.array(params[:num_movies * num_features]).reshape(num_features, num_movies)
+    X = np.transpose(X)
+    Theta = np.array(params[X.size:]).reshape(num_features, num_users)
+    Theta = np.transpose(Theta)
 
     X_grad = np.zeros(X.shape)
     Theta_grad = np.zeros(Theta.shape)
